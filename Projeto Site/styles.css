@@ -1,0 +1,204 @@
+/* ===== Reset / base ===== */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #2F4156; /* mantive seu background original */
+      color: #111;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== Header ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo img { height: 70px; display: block; }
+    .logo h1 { margin: 0; font-size: 22px; color: #111; }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #111;
+      font-size: 16px;
+    }
+
+    /* Botões de ação */
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid #888;
+      text-decoration: none;
+      font-size: 16px;
+      margin-left: 6px;
+      display: inline-block;
+    }
+
+    .btn-signin { background:#f0f0f0; color:#111; }
+    .btn-register { background:#333; color:#fff; border: none; }
+
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); transition: .12s; }
+
+    /* ===== Conteúdo / vídeo ===== */
+    main { padding: 30px 20px 80px; }
+
+    .video-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px auto 30px;
+    }
+
+    /* iframe responsivo usando aspect-ratio (moderno) */
+    .video-frame {
+      width: 90%;
+      max-width: 900px;
+      aspect-ratio: 16/9;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+      background: #000;
+    }
+
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* ===== Botões "Glossário / Etapas / Sobre" ===== */
+    #sp {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin: 10px auto 40px;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    #sp a {
+      display: block;
+      min-width: 150px;
+      text-align: center;
+      text-decoration: none;
+      background: #fff;
+      color: #111;
+      padding: 16px 22px;
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.14);
+      transition: background .18s, color .18s, transform .12s;
+    }
+
+    #sp a:hover {
+      background: #0056b3;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    #sp h2 { margin: 0; font-size: 18px; }
+
+    /* ===== Popup (CSS :target) ===== */
+    .popup {
+      position: fixed;
+      inset: 0; /* top:0; left:0; right:0; bottom:0 */
+      display: block;
+      background: rgba(0,0,0,0.6);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s ease;
+      z-index: 1000;
+      padding: 32px 16px;
+    }
+
+    .popup:target {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .popup-content {
+      background: #fff;
+      max-width: 900px;
+      margin: 3% auto;
+      padding: 20px 22px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .def-popup-content { max-height: 70vh; }
+
+    .popup .fechar {
+      position: absolute;
+      right: 14px;
+      top: 8px;
+      text-decoration: none;
+      font-size: 26px;
+      color: #c0392b;
+      font-weight: bold;
+    }
+
+    .popup h2 { margin-top: 0.2em; }
+    .popup h3 { margin-bottom: .2em; }
+    .popup ul { padding-left: 20px; margin-top: 6px; }
+
+    /* ===== Links internos e botões dentro dos popups ===== */
+    .popup a.inline {
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      color: #0056b3;
+    }
+
+    /* ===== Alguns ajustes pequenos ===== */
+    @media (max-width: 760px) {
+      header { flex-direction: column; gap: 12px; align-items: flex-start; padding: 14px; }
+      nav { gap: 10px; flex-wrap: wrap; }
+      .logo img { height: 56px; }
+      .logo h1 { font-size: 18px; }
+      .video-frame { width: 98%; height: auto; }
+      #sp a { min-width: unset; width: 86%; }
+      .popup-content { margin: 6% 12px; width: auto; }
+    }
+    #Intro {
+      border: 5px white solid;
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+    }
+    #Intro a{
+      text-decoration: none;
+    }
+    #Tabelas{
+      border: 5px white solid;
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+    }
+    #Tabelas a{
+      text-decoration: none;
+    }
+    #Tabelas td,th{
+      padding: 5px;
+    }

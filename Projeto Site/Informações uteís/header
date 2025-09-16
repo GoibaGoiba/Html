@@ -1,0 +1,15 @@
+  <header>
+    <a class="logo" href="index.html" aria-label="Ir para a página inicial">
+      <!-- troqu'e o src para o caminho da sua logo real -->
+      <img src="3551715c-4551-427f-b507-dc06955afcc0 (4).png" alt="Logo Escola Global">
+      <h1>Escola Global</h1>
+    </a>
+
+    <nav aria-label="Menu principal">
+      <a href="#">Tabela de Preço</a>
+      <a href="#">Contato</a>
+      <a href="#">Início</a>
+      <a href="#" class="btn btn-signin">Entrar</a>
+      <a href="#" class="btn btn-register">Fazer Cadástro</a>
+    </nav>
+  </header>
