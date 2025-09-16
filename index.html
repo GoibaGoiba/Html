@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Escola Global</title>
+  <style>
+    /* ===== Reset / base ===== */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #2F4156; /* mantive seu background original */
+      color: #111;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== Header ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo img { height: 70px; display: block; }
+    .logo h1 { margin: 0; font-size: 22px; color: #111; }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #111;
+      font-size: 16px;
+    }
+
+    /* Botões de ação */
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid #888;
+      text-decoration: none;
+      font-size: 16px;
+      margin-left: 6px;
+      display: inline-block;
+    }
+
+    .btn-signin { background:#f0f0f0; color:#111; }
+    .btn-register { background:#333; color:#fff; border: none; }
+
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); transition: .12s; }
+
+    /* ===== Conteúdo / vídeo ===== */
+    main { padding: 30px 20px 80px; }
+
+    .video-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px auto 30px;
+    }
+
+    /* iframe responsivo usando aspect-ratio (moderno) */
+    .video-frame {
+      width: 90%;
+      max-width: 900px;
+      aspect-ratio: 16/9;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+      background: #000;
+    }
+
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* ===== Botões "Glossário / Etapas / Sobre" ===== */
+    #sp {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin: 10px auto 40px;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    #sp a {
+      display: block;
+      min-width: 150px;
+      text-align: center;
+      text-decoration: none;
+      background: #fff;
+      color: #111;
+      padding: 16px 22px;
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.14);
+      transition: background .18s, color .18s, transform .12s;
+    }
+
+    #sp a:hover {
+      background: #0056b3;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    #sp h2 { margin: 0; font-size: 18px; }
+
+    /* ===== Popup (CSS :target) ===== */
+    .popup {
+      position: fixed;
+      inset: 0; /* top:0; left:0; right:0; bottom:0 */
+      display: block;
+      background: rgba(0,0,0,0.6);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s ease;
+      z-index: 1000;
+      padding: 32px 16px;
+    }
+
+    .popup:target {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .popup-content {
+      background: #fff;
+      max-width: 900px;
+      margin: 3% auto;
+      padding: 20px 22px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .def-popup-content { max-height: 70vh; }
+
+    .popup .fechar {
+      position: absolute;
+      right: 14px;
+      top: 8px;
+      text-decoration: none;
+      font-size: 26px;
+      color: #c0392b;
+      font-weight: bold;
+    }
+
+    .popup h2 { margin-top: 0.2em; }
+    .popup h3 { margin-bottom: .2em; }
+    .popup ul { padding-left: 20px; margin-top: 6px; }
+
+    /* ===== Links internos e botões dentro dos popups ===== */
+    .popup a.inline {
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      color: #0056b3;
+    }
+
+    /* ===== Alguns ajustes pequenos ===== */
+    @media (max-width: 760px) {
+      header { flex-direction: column; gap: 12px; align-items: flex-start; padding: 14px; }
+      nav { gap: 10px; flex-wrap: wrap; }
+      .logo img { height: 56px; }
+      .logo h1 { font-size: 18px; }
+      .video-frame { width: 98%; height: auto; }
+      #sp a { min-width: unset; width: 86%; }
+      .popup-content { margin: 6% 12px; width: auto; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a class="logo" href="index.html" aria-label="Ir para a página inicial">
+      <!-- troque o src para o caminho da sua logo real -->
+      <img src="https://attachments.office.net/owa/enzzo.anacleto%40portalsesisp.org.br/service.svc/s/GetAttachmentThumbnail?id=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AM23UjX35YU6LmW17pE10IgAH%2FYnpvwAAARIAEAC6gD03ODAzQL%2F%2BzhGl8uC8&thumbnailType=2&token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlZJK1BuUk8wZ3JrRlVKZHk1ck02ZThUeVFoRT0iLCJ4NXQiOiJWSStQblJPMGdya0ZVSmR5NXJNNmU4VHlRaEU9Iiwibm9uY2UiOiJyXzlIMXBwcVA5dlZvMnd6b1cyYUw3eVZHd01TLVg2YTBBMXZGRTZFcDJUdzJ0cVZnSWFRWE0zWmV5dnZGSGtoMFhPXzI1X1ZaR3FrVnhCVW9JLTNITk9oYkhnLWw1b3Fpa2NXWnlUSDcwLWM3ZmxtYnc0VE1VSXNKVGtyYlFmNGdZeTFuc1lONWRBN1lVdDRpNm4zWF93bUlvWDNTY2R1ZXdQZjRnUklodG8iLCJpc3Nsb2MiOiJDUFdQUjgwTUI4NjYyIiwic3JzbiI6NjM4OTM2MTAwODQ4NjE0MzgwfQ.eyJzYXAtdmVyc2lvbiI6IjMzIiwiYXBwaWQiOiJhZjNlYmJiYS1jMjNmLTQ5MmEtYWE5My04MzQyMTY5NmVjNGIiLCJpc3NyaW5nIjoiV1ciLCJhcHBpZGFjciI6IjIiLCJhcHBfZGlzcGxheW5hbWUiOiIiLCJ1dGkiOiI2NTE4ZmFlYy04MjE4LTQxZGYtOGU1OC0zYmMyODg0MTNkNmQiLCJpYXQiOjE3NTgwMjkyOTUsInZlciI6IlNUSS5Vc2VyLkNhbGxiYWNrVG9rZW4uVjEiLCJ0aWQiOiJiMTA1MWM0YjNiOTQ0MWFiOTQ0MWU3M2E3MjM0MmZkZCIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UiLCJ0b3BvbG9neSI6IntcIlR5cGVcIjpcIk1hY2hpbmVcIixcIlZhbHVlXCI6XCJDUFdQUjgwTUI4NjYyLmxhbXByZDgwLnByb2Qub3V0bG9vay5jb21cIn0iLCJyZXF1ZXN0b3JfYXBwaWQiOiIxNTdjZGZiZi03Mzk4LTRhNTYtOTZjMy1lOTNlOWFiMzA5YjUiLCJyZXF1ZXN0b3JfYXBwX2Rpc3BsYXluYW1lIjoiT2ZmaWNlIDM2NSBFeGNoYW5nZSBNaWNyb3NlcnZpY2UiLCJzY3AiOiJPd2FBdHRhY2htZW50cy5SZWFkIiwib2lkIjoiYzdlYzc3ODEtYWRjMC00ODRjLTgxNjEtOGJjZDUyODFkMzRmIiwicHVpZCI6IjEwMDMzRkZGOTZENTU2QUMiLCJzbXRwIjoiZW56em8uYW5hY2xldG9AcG9ydGFsc2VzaXNwLm9yZy5iciIsInVwbiI6ImVuenpvLmFuYWNsZXRvQHBvcnRhbHNlc2lzcC5vcmcuYnIiLCJ1c2VyY2FsbGJhY2t1c2VyY29udGV4dGlkIjoiNGQ2OGJjOGRjODViNGIwM2E5NzRhZTUxOTc1OWZmM2EiLCJzaWduaW5fc3RhdGUiOiJrbXNpIiwiZXBrIjoie1wia3R5XCI6XCJSU0FcIixcIm5cIjpcIjBtUHJTaTFFWENxeG1VelNhR25QdV9DTlZsMFdUOVJvN0owaGo1d3U5RWFkWHdWcWRjMHd5cW5Nc3N4bzhkdU1UTzBaVm5VaTZiZm5QN2I1NjZfM1J3THFrTURWWUpzN2puWHZWNG82YUllWF81WXpRYUo1WkZvZEI0VUktVGJyZHFMS2tyRWozS3JRVm8xeWFISEZzVjdyOEpsUmhkT21Lc19wVTFoWjdvc1pEbzJxeWN2bVZzZ3ZHa0ZqV1NaY0gzejNRUHBZRHkzZUhmZG90WXdfaWRlbmVPYXVvSERldE1xYnRndzhuTGVBUjU3U1JXNHVOR1dmcHA3NDk4bVVBYllBWUltZS1weU9rMkpBaWk5ZkxEMTVrQjNqMmNCU1lxMHczNnNZSHFVWm5UT1BlaXM4RDNJc281R0pxemE3RmswbTJtbTdzZEw5dmhiNU9weWZaUVwiLFwiZVwiOlwiQVFBQlwiLFwiYWxnXCI6XCJSUzI1NlwiLFwiZXhwXCI6XCIxNzU4MTE4NTkwXCIsXCJleHBfZGlmZlwiOlwiODY0MDBcIixcImtpZFwiOlwiTUZhbGZPcWhPMjg5UTZvbkNlaFVBVlE4NnE0XCJ9LnE0dVhyRTNRMTNuUWRpL1ZEUGtKTmUzOEtJdVBlWnpjQkpncm00azBzNVluU1krUzJzZXJuQVZ4MWtzQ3VpeFUveGxBbFBoZDFjc1JaVitPNk1YSE5BWjl2L0xCSkxLY2dLeWt6WnlxTis4OERaaFRPWlVxZDJVRlNzcW9pNnQ2dWxGbG9mbUFjWjZKYXZ5RmdMamYyYXZESW5EV2Z1bHY2WEtEVEZydHliYy9GZDdBVklwcktUOVZEcnNSUmtxVXEwZXVTcURnRnlVa0w4aVR6akhLU1BLUVVVb0p0UVhDaytGSGhURGRMQTRrNTNJcVRRSEt3RisvaTFTb2hUMElKa1ZtLzN6TzRZUHlSSDAvbGYwdnlaQzBGZ0IwY0ovNkltVHR1SHA3bEt5RTdXQmhTV2RaZGlhMFc3TnN0MStvekhxMHN5OG42UUo0SjhHTUdjZXBsZz09IiwibmJmIjoxNzU4MDI5Mjk1LCJleHAiOjE3NTgwMjk1OTUsImlzcyI6Imh0dHBzOi8vc3Vic3RyYXRlLm9mZmljZS5jb20vc3RzLyIsImF1ZCI6Imh0dHBzOi8vb3V0bG9vay5vZmZpY2UuY29tIiwic3NlYyI6IkU3cWk1c1FEQVNReXJsQWsiLCJlc3NlYyI6ImFydGlmYWN0LWF1dG8tcHJvZHxNMzY1MjAyNS0wNy0yNFQwOTo0NDo1OC4wNDYwOTg0WnxmUmN1VFc2dmp4dk1pZCJ9.x9RTkIrf1L0QLyCeN15tqlCu_EUFET5AqS7daF6IIzDX0WG46cbANnLR337yy1Mh9J6qB5chILcy5IFVPbcJYizhoDL2q_hzJE51EoUxiDx1O2p9TuEEvzuHZ68ntrv9Ut650ar0K98j9JC-d9NA8MxAjtZaKrEOpMebeTDhuwbRsyVC6P1wrBwh7ZEdSVle5qcAyE-br-oVPidNOkeDVvocIAXmlf1Y1W6qQDdHVtALipxMD6X5-Zauv-FGfUep3z2esZLuuqbMyMRutUyuDSPKwltxm-92EMVpFh1p71OQMXJkKtLx8ISzKUrj_-kbbmyKhSRkmOiiFiw0sdcXYg&X-OWA-CANARY=X-OWA-CANARY_cookie_is_null_or_empty&owa=outlook.office.com&scriptVer=20250905004.07&clientId=F9182AE5AE384B8CBFD28B995AC4BDD1&animation=true" alt="Logo Escola Global">
+      <h1>Escola Global</h1>
+    </a>
+
+    <nav aria-label="Menu principal">
+      <a href="#">Tabela de Preço</a>
+      <a href="#">Contato</a>
+      <a href="#">Início</a>
+      <a href="#" class="btn btn-signin">Entrar</a>
+      <a href="#" class="btn btn-register">Fazer Cadástro</a>
+    </nav>
+  </header>
+
+  <!-- MAIN (vídeo + botões) -->
+  <main>
+    <div class="video-container" id="VD">
+      <div class="video-frame" role="region" aria-label="Vídeo de exemplo">
+        <!-- mantive o src do seu iframe (substitua se quiser outro vídeo) -->
+        <iframe src="https://www.youtube.com/embed/wAHOgGw6eCc?si=SjXZaV4ulVu93fDb"
+                title="Vídeo exemplo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- BOTOES: Glossário / Etapas / Sobre -->
+    <section id="sp" aria-label="Atalhos">
+      <a id="b1" href="#pop1"><h2 id="glossario">Glossário</h2></a>
+      <a id="b2" href="#pop3"><h2 id="etapas">Etapas</h2></a>
+      <a id="b3" href="#pop5"><h2 id="sobre">Sobre</h2></a>
+    </section>
+  </main>
+
+  <!-- ========= POPUP: Glossário (pop1) ========= -->
+  <div id="pop1" class="popup" aria-hidden="true">
+    <div class="popup-content" role="dialog" aria-labelledby="glossario">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="glossario">📖 Glossário</h2>
+
+      <h3>📚 Estrutura Acadêmica</h3>
+      <ul>
+        <li><a href="#def-curso">Curso</a></li>
+        <li><a href="#def-modulo">Módulo</a></li>
+        <li><a href="#def-cargahoraria">Carga Horária</a></li>
+        <li><a href="#def-turma">Turma</a></li>
+      </ul>
+
+      <h3>👩‍🏫 Pessoas na Instituição</h3>
+      <ul>
+        <li><a href="#def-aluno">Aluno</a></li>
+        <li><a href="#def-professor">Professor</a></li>
+        <li><a href="#def-coordenador">Coordenador Acadêmico</a></li>
+      </ul>
+
+      <h3>🏫 Espaços e Modalidades</h3>
+      <ul>
+        <li><a href="#def-presencial">Presencial</a></li>
+        <li><a href="#def-online">Online</a></li>
+        <li><a href="#def-hibrido">Híbrido</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== Glossário: Definições individuais ===== -->
+  <div id="def-curso" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-curso-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-curso-title">Curso</h2>
+      <p>Conjunto de disciplinas organizadas para formação de um aluno.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-modulo" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-modulo-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-modulo-title">Módulo</h2>
+      <p>Segmento de um curso que aborda um tema específico.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-cargahoraria" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-cargahoraria-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-cargahoraria-title">Carga Horária</h2>
+      <p>Quantidade de horas dedicadas ao curso ou módulo.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-turma" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-turma-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-turma-title">Turma</h2>
+      <p>Grupo de alunos matriculados em um curso ou módulo específico.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-aluno" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-aluno-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-aluno-title">Aluno</h2>
+      <p>Pessoa matriculada e participando das atividades acadêmicas.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-professor" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-professor-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-professor-title">Professor</h2>
+      <p>Responsável por ministrar aulas e orientar alunos.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-coordenador" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-coordenador-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-coordenador-title">Coordenador Acadêmico</h2>
+      <p>Supervisiona o andamento dos cursos e professores.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-presencial" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-presencial-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-presencial-title">Presencial</h2>
+      <p>Modalidade de ensino em que o aluno assiste aulas fisicamente na instituição.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-online" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-online-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-online-title">Online</h2>
+      <p>Ensino realizado totalmente pela internet.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-hibrido" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-hibrido-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-hibrido-title">Híbrido</h2>
+      <p>Combinação de aulas presenciais e online.</p>
+      <p><a class="inline" href="#pop1">voltar</a></p>
+    </div>
+  </div>
+
+  <!-- ========= POPUP: Etapas (pop3) ========= -->
+  <div id="pop3" class="popup">
+    <div class="popup-content" role="dialog" aria-labelledby="etapas">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="etapas">Etapas</h2>
+      <h3>Etapas de inscrição</h3>
+      <ul>
+        <li><a href="#def-et1">Etapa 1</a></li>
+        <li><a href="#def-et2">Etapa 2</a></li>
+        <li><a href="#def-et3">Etapa 3</a></li>
+        <li><a href="#def-et4">Etapa 4</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Etapas individuais -->
+  <div id="def-et1" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-et1-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-et1-title">Etapa 1</h2>
+      <p>Entre e crie uma conta no site.</p>
+      <p><a class="inline" href="#pop3">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-et2" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-et2-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-et2-title">Etapa 2</h2>
+      <p>Olhe o plano que mais lhe interessa.</p>
+      <p><a class="inline" href="#pop3">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-et3" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-et3-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-et3-title">Etapa 3</h2>
+      <p>Escolha qual linguagem deseja aprender (dentre as opções disponíveis).</p>
+      <p><a class="inline" href="#pop3">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-et4" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-et4-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-et4-title">Etapa 4</h2>
+      <p>Desfrute de sua aprendizagem. Boa sorte!</p>
+      <p><a class="inline" href="#pop3">voltar</a></p>
+    </div>
+  </div>
+
+  <!-- ========= POPUP: Sobre (pop5) ========= -->
+  <div id="pop5" class="popup">
+    <div class="popup-content" role="dialog" aria-labelledby="sobre">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="sobre">Sobre</h2>
+      <h3>Quem trabalhou no projeto</h3>
+      <ul>
+        <li><a href="#def-gr1">Grupo 1</a></li>
+        <li><a href="#def-gr2">Grupo 2</a></li>
+        <li><a href="#def-gr3">Grupo 3</a></li>
+        <li><a href="#def-gr4">Grupo 4</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Grupos -->
+  <div id="def-gr1" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-gr1-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-gr1-title">Grupo 1</h2>
+      <ul>
+        <li><a href="https://github.com/GuiScarparo" target="_blank" rel="noopener">Guilherme Scarparo</a></li>
+        <li><a href="https://github.com/GoibaGoiba" target="_blank" rel="noopener">Enzzo</a></li>
+        <li><a href="https://github.com/Diegotv39" target="_blank" rel="noopener">Diego</a></li>
+        <li>Lívia</li>
+        <li>Beatriz Gonçalves</li>
+        <li>Núbia</li>
+        <li>Marcos</li>
+        <li><a href="https://github.com/Samugusto" target="_blank" rel="noopener">Samuel</a></li>
+      </ul>
+      <p><a class="inline" href="#pop5">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-gr2" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-gr2-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-gr2-title">Grupo 2</h2>
+      <ul>
+        <li>Leonardo</li>
+        <li><a href="https://github.com/Mar3l00" target="_blank" rel="noopener">Marcelo</a></li>
+        <li>João Pedro</li>
+        <li>Anna Hilda</li>
+        <li>Davi</li>
+        <li>Caio</li>
+        <li>Gabriela</li>
+      </ul>
+      <p><a class="inline" href="#pop5">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-gr3" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-gr3-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-gr3-title">Grupo 3</h2>
+      <ul>
+        <li>João Vitor</li>
+        <li>Bruna</li>
+        <li>Vinícius</li>
+        <li><a href="https://github.com/rianzitos?tab=repositories" target="_blank" rel="noopener">Rian Rafael</a></li>
+        <li>Júlia</li>
+        <li>Yago</li>
+        <li>Guilherme Machado</li>
+        <li>Rhyan Gabriel</li>
+      </ul>
+      <p><a class="inline" href="#pop5">voltar</a></p>
+    </div>
+  </div>
+
+  <div id="def-gr4" class="popup">
+    <div class="popup-content def-popup-content" role="dialog" aria-labelledby="def-gr4-title">
+      <a class="fechar" href="#" aria-label="Fechar">&times;</a>
+      <h2 id="def-gr4-title">Grupo 4</h2>
+      <ul>
+        <li>Carlos</li>
+        <li>Beatriz Moreira</li>
+        <li>Bianca</li>
+        <li>Gabriel Somaggio</li>
+        <li>Lara</li>
+        <li>Luiz Francisco</li>
+        <li>Amanda</li>
+        <li>Hugo</li>
+      </ul>
+      <p><a class="inline" href="#pop5">voltar</a></p>
+    </div>
+  </div>
+
+</body>
+</html>
