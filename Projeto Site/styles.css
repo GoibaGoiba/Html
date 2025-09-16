@@ -172,7 +172,7 @@
     }
 
     /* ===== Alguns ajustes pequenos ===== */
-    @media (max-width: 760px) {
+    @media (max-width: 768px) {
       header { flex-direction: column; gap: 12px; align-items: flex-start; padding: 14px; }
       nav { gap: 10px; flex-wrap: wrap; }
       .logo img { height: 56px; }
@@ -180,6 +180,7 @@
       .video-frame { width: 98%; height: auto; }
       #sp a { min-width: unset; width: 86%; }
       .popup-content { margin: 6% 12px; width: auto; }
+      .grid-tabelas {grid-template-columns: 1fr;}
     }
     #Intro {
       border: 5px white solid;
@@ -202,3 +203,34 @@
     #Tabelas td,th{
       padding: 5px;
     }
+.grid-tabelas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colunas iguais */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-tabela {
+  border: 2px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  height: 100%; /* força a ocupar altura simétrica */
+}
+
+.card-tabela table {
+  width: 100%;
+  height: 100%; /* ocupa toda a altura da caixa */
+  border-collapse: collapse;
+}
+
+.card-tabela th, 
+.card-tabela td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: center;
+}
